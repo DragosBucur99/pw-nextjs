@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+
+const rootDir = path.resolve()
+const testsDir = path.join(rootDir, 'results');
+const absoluteTestsDir = path.resolve(testsDir);
 
 /**
  * Read environment variables from file.
@@ -21,13 +26,14 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'line',
+  outputDir: absoluteTestsDir,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "off",
+    // trace: "off",
   },
 
   /* Configure projects for major browsers */
