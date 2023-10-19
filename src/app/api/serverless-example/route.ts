@@ -57,7 +57,7 @@ export async function GET() {
   } catch (e) {
     console.error('Avem o problema: ' + e);
     return NextResponse.json(
-      { data: 'An error occurred' },
+      { data: e },
       {
         status: 500,
       }
