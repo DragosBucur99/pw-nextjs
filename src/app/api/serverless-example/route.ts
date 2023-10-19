@@ -24,6 +24,15 @@ const execPromise = util.promisify(exec)
 
 // }
 export async function GET() {
+  const execPromise = util.promisify(exec)
+  try {
+    await execPromise(`npm ci && npx playwright install`)
+  } catch (e: any) {
+    console.error(`jobs: Playwright install failed (${e.message || e})`)
+    console.error(e.stdout)
+    console.error(e.stderr)
+  }
+
   try {
     const child = exec('npx playwright test');
     let output = ''; // Variable to store the command output
