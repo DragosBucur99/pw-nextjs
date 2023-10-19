@@ -5,22 +5,28 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     const rootDir = path.resolve();
-    const filePath = path.join(rootDir, 'tests', 'example.spec.ts');
+    const testsDir = path.join(rootDir, 'tests');
+    const filePath = path.join(testsDir, 'example2.spec.ts');
+    const fileContent = "console.log('testing')";
   
     try {
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      // Create the example2.spec.ts file and write content to it
+      fs.writeFileSync(filePath, fileContent);
+  
+      // Read the file to display its content
+      const readContent = fs.readFileSync(filePath, 'utf-8');
+  
       return NextResponse.json(
-        { data: fileContent,
-        rootDir },
+        { data: readContent },
         {
           status: 200,
         }
       );
     } catch (error) {
       return NextResponse.json(
-        { error: 'File not found or could not be read.' },
+        { error: 'File creation or reading failed.' },
         {
-          status: 404, // You can use a different status code based on the error type.
+          status: 500, // You can use a different status code based on the error type.
         }
       );
     }
