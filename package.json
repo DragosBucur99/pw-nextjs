@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm ci && npx playwright install --with-deps",
+    "build": "next build && npm install && npx playwright install",
     "start": "next start",
     "lint": "next lint"
   },
