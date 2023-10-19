@@ -25,27 +25,42 @@ const execPromise = util.promisify(exec)
 // }
 export async function GET() {
   try {
+    const child = exec('npx playwright test');
+    let output = ''; // Variable to store the command output
 
+    // Attach event listeners to capture the output
+    child.stdout?.on('data', (data) => {
+      output += data;
+    });
+
+    child.stderr?.on('data', (data) => {
+      console.error(data); // Log any errors to the console
+    });
+
+    // Promise that resolves when the command completes
     await new Promise<void>((resolve, reject) => {
-      const child = exec('npx playwright test')
-  
-      // pipe to log files
-      child.on('close', async (code) => {
-        if (code != 0) {
-          reject(`playwright return code is non-zero: ${code}`)
+      child.on('close', (code) => {
+        if (code !== 0) {
+          reject(`playwright return code is non-zero: ${code}`);
         } else {
-          resolve()
+          resolve();
         }
-      })
-    })
-  } catch(e) {
-    console.log('Avem o problema: ' + e) 
-  }
+      });
+    });
 
-  return NextResponse.json(
-    { execution: 'finished' },
-    {
-      status: 200,
-    },
-  );
+    return NextResponse.json(
+      { data: output },
+      {
+        status: 200,
+      }
+    );
+  } catch (e) {
+    console.error('Avem o problema: ' + e);
+    return NextResponse.json(
+      { data: 'An error occurred' },
+      {
+        status: 500,
+      }
+    );
+  }
 }
