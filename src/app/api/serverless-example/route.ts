@@ -34,7 +34,7 @@ export async function GET() {
   // }
 
   try {
-    const child = exec('npx playwright test');
+    const child = exec('npx playwright --version');
     let output = ''; // Variable to store the command output
     let errorOutput = ''
 
