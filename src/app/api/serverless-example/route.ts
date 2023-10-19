@@ -25,7 +25,7 @@ const execPromise = util.promisify(exec)
 // }
 export async function GET() {
   try {
-    const child = exec('npx playwright test');
+    const child = exec('node -v');
     let output = ''; // Variable to store the command output
     let errorOutput = ''
 
