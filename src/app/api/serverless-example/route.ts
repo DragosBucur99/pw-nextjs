@@ -27,6 +27,7 @@ export async function GET() {
   try {
     const child = exec('npx playwright test');
     let output = ''; // Variable to store the command output
+    let errorOutput = ''
 
     // Attach event listeners to capture the output
     child.stdout?.on('data', (data) => {
@@ -34,14 +35,15 @@ export async function GET() {
     });
 
     child.stderr?.on('data', (data) => {
-      console.error(data); // Log any errors to the console
+      errorOutput += data; // Log any errors to the console
     });
 
     // Promise that resolves when the command completes
     await new Promise<void>((resolve, reject) => {
       child.on('close', (code) => {
         if (code !== 0) {
-          reject(`playwright return code is non-zero: ${code}`);
+          const errorMessage = `playwright return code is non-zero: ${code}\n${errorOutput}`;
+          reject(errorMessage);
         } else {
           resolve();
         }
