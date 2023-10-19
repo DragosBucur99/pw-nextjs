@@ -6,7 +6,8 @@ import { exec } from 'child_process'
 export async function GET(request: NextRequest) {
   const execPromise = util.promisify(exec)
   try {
-    await execPromise(`npx playwright install`)
+    await execPromise(`npx playwright install --with-deps`)
+    console.log('Playwright installed')
   } catch (e: any) {
     console.error(`jobs: Playwright install failed (${e.message || e})`)
     console.error(e.stdout)
