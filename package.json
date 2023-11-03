@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm ci && PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
