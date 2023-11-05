@@ -17,10 +17,10 @@ import { NextResponse } from "next/server";
 //   return Response.json(data);
 // }
 
-export async function GET() {
-  const response = await fetch("https://134.209.225.36/", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  return NextResponse.json(await response.json(), { status: 200 });
-}
+// export async function GET() {
+//   const response = await fetch("https://134.209.225.36/", {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   return NextResponse.json(await response.json(), { status: 200 });
+// }
