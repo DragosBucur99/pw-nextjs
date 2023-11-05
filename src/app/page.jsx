@@ -6,13 +6,13 @@ export default function Home() {
   const fetchAPI = async () => {
     // const resp = await fetch("/api/test", { method: "POST" });
     try {
-      const resp = await fetch("http://165.227.155.70:3000/tests", {
+      const resp = await fetch("https://134.209.225.36/", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       const body = await resp.json();
       console.log(body);
-      setData(body.data.replace(/\u001B\[[0-9;]*[A-Za-z]/g, "") + new Date());
+      setData(JSON.stringify(body));
     } catch (error) {
       console.log(error);
     }
