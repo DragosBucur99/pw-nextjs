@@ -6,7 +6,7 @@ export default function Home() {
   const fetchAPI = async () => {
     // const resp = await fetch("/api/test", { method: "POST" });
     try {
-      const resp = await fetch("https://134.209.225.36/", {
+      const resp = await fetch("https://api.dragosportfolio.com", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
