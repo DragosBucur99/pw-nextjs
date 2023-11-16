@@ -33,7 +33,7 @@ export default function Cube(props: any) {
       onPointerOut={() => hover(false)}
       {...bind()}
     >
-      <boxGeometry args={[6, 6, 6]} />
+      <boxGeometry args={[8, 8, 8]} />
       <meshStandardMaterial />
     </mesh>
   );

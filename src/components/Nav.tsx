@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaBars } from "react-icons/fa";
 
 export default function Nav() {
   // const scrollThreshold = 100;
@@ -47,12 +48,13 @@ export default function Nav() {
   // }, [prevScrollY, direction]); // Include prevScrollY as a dependency
 
   return (
-    <nav className="hidden flex-wrap shadow-md sticky items-center top-10 text-lg justify-between w-full p-5 rounded-md bg-neutral-900 lg:flex">
+    <nav className="flex shadow-md sticky items-center top-10 text-lg justify-between w-full p-5 rounded-md bg-neutral-700 z-10">
       <span className="flex items-center gap-3">
-        <div className="rounded-full w-3 h-3 bg-green-400"></div>Available to
-        work
+        <div className="rounded-full w-3 h-3 bg-green-400"></div>
+        Available
       </span>
-      <ul className="flex gap-10">
+      <FaBars className="lg:hidden" />
+      <ul className="hidden gap-10 lg:flex">
         <li className="highlight-nav">Home</li>
         <li>About</li>
         <li>App</li>

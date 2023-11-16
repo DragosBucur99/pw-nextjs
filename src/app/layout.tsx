@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Nav from "@/components/Nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,7 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={poppins.className}>
-      <body className="px-5 py-10 bg-neutral-900 w-full lg:px-40">
+      <body className="flex flex-col gap-24 px-5 py-10 bg-neutral-900 lg:px-40">
+        <Nav />
         {children}
       </body>
     </html>

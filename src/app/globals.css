@@ -42,6 +42,16 @@ body {
   background-color: #4ADE80;
 }
 
+h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  line-height: 3.3rem;
+}
+
+input, textarea {
+  width: 100%;
+}
+
 .test {
   border: 1px solid red !important;
 }
