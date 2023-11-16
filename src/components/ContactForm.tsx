@@ -1,26 +1,39 @@
 import Button from "./Button";
+import { useForm, ValidationError } from "@formspree/react";
 
 export default function ContactForm() {
+  const [state, handleSubmit] = useForm("mknlazko");
+  if (state.succeeded) {
+    return <p>Message sent!</p>;
+  }
   return (
-    <form
-      id="contact-form"
-      onSubmit={() => console.log("YES")}
-      method="POST"
-      className="flex flex-col gap-2 "
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <div>
-        <label htmlFor="name">Name</label>
-        <input type="text" />
+        <label htmlFor="name" className="text-sm">
+          Name
+        </label>
+        <input id="name" type="name" name="name" />
+        <ValidationError prefix="Name" field="name" errors={state.errors} />
       </div>
       <div>
-        <label htmlFor="exampleInputEmail1">Email address</label>
-        <input type="email" aria-describedby="emailHelp" />
+        <label htmlFor="email" className="text-sm">
+          Email Address
+        </label>
+        <input id="email" type="email" name="email" />
+        <ValidationError prefix="Email" field="email" errors={state.errors} />
       </div>
       <div>
-        <label htmlFor="message">Message</label>
-        <textarea rows={2}></textarea>
+        <label htmlFor="message" className="text-sm">
+          Message
+        </label>
+        <textarea id="message" name="message" />
+        <ValidationError
+          prefix="Message"
+          field="message"
+          errors={state.errors}
+        />
       </div>
-      <Button name="Submit" type="submit" />
+      <Button name="Submit" type="submit" disabled={state.submitting} />
     </form>
   );
 }

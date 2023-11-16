@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formspree/react": "^2.5.1",
     "@react-three/fiber": "^8.15.11",
     "@types/three": "^0.158.2",
     "next": "13.5.5",
