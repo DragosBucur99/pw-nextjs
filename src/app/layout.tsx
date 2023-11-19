@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className="flex flex-col gap-24 px-5 py-10 bg-neutral-900 lg:px-40">
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );

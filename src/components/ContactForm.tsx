@@ -7,7 +7,7 @@ export default function ContactForm() {
     return <p>Message sent!</p>;
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <div>
         <label htmlFor="name" className="text-sm">
           Name
@@ -33,7 +33,9 @@ export default function ContactForm() {
           errors={state.errors}
         />
       </div>
-      <Button name="Submit" type="submit" disabled={state.submitting} />
+      <div className="mt-5">
+        <Button name="Send 🚀" type="submit" disabled={state.submitting} />
+      </div>
     </form>
   );
 }

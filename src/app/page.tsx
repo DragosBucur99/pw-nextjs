@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Button from "@/components/Button";
 import Cube from "@/components/Threejs/Cube";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -8,34 +9,39 @@ import { SlMagnifier } from "react-icons/sl";
 import { CiRoute } from "react-icons/ci";
 import { CiClock1 } from "react-icons/ci";
 import ContactForm from "@/components/ContactForm";
+import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
 
 export default function Home() {
   return (
-    <main className="flex flex-col gap-52 text-3xl">
+    <main className="flex flex-col gap-36 text-3xl">
       <section
         id="hero-section"
-        className="flex flex-wrap w-full flex-col-reverse gap-10 lg:flex-row sm:flex-col"
+        className="flex flex-wrap w-full flex-col-reverse gap-10 lg:gap-0 lg:flex-row sm:flex-col"
       >
         <div className="flex-1">
           <h1>You make it, I break it!</h1>
-          <h2 className="text-base opacity-80 pt-1">
+          <h2 className="text-base opacity-80 pt-5">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus rei.
           </h2>
-          <div className="pt-5">
-            <Button name="Click" />
+          <div className="pt-5 flex gap-1">
+            <BendArrow size={60} />
+            <Button name="Contact" />
           </div>
+          <span className="text-sm flex items-center justify-center pt-10">
+            Scroll down
+          </span>
         </div>
-        <div className="flex-1">
-          <Canvas camera={{ position: [0, 0, 15], fov: 50 }}>
-            <ambientLight intensity={0.5} />
-            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-            <pointLight position={[-10, -10, -10]} />
-            <Cube />
-          </Canvas>
+        <div className="relative flex-1 flex items-center justify-end">
+          <Image width={600} height={600} alt="hero" src="/hero_2.svg" />
         </div>
       </section>
       <section id="playground-section" className="flex gap-10 flex-col">
-        <h1>Testing does not have to be hard!</h1>
+        <div>
+          <h1>Playground</h1>
+          <h2 className="text-base opacity-80 pt-5">
+            Testing does not have to be hard!
+          </h2>
+        </div>
         <Playground />
       </section>
       <section id="skills-section" className="flex gap-10 flex-col">
