@@ -12,6 +12,7 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-10">
       <div>
         <Input
+          size="lg"
           type="name"
           id="name"
           name="name"
@@ -22,6 +23,7 @@ export default function ContactForm() {
       </div>
       <div>
         <Input
+          size="lg"
           type="email"
           id="email"
           name="email"
@@ -32,6 +34,7 @@ export default function ContactForm() {
       </div>
       <div>
         <Textarea
+          size="lg"
           id="message"
           name="message"
           label="Mesasage"
