@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import Button from "@/components/Button";
+import { Button } from "@nextui-org/button";
 import Cube from "@/components/Threejs/Cube";
 import { Canvas, useFrame } from "@react-three/fiber";
 import Playground from "@/components/Playground";
@@ -23,9 +23,11 @@ export default function Home() {
           <h2 className="text-base opacity-80 pt-5">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus rei.
           </h2>
-          <div className="pt-5 flex gap-1">
+          <div className="pt-5 flex gap-1 items-center">
             <BendArrow size={60} />
-            <Button name="Contact" />
+            <Button size="lg" color="primary" className="text-xl font-bold">
+              Contact
+            </Button>
           </div>
           <span className="text-sm flex items-center justify-center pt-10">
             Scroll down

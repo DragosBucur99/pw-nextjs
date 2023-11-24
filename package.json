@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@formspree/react": "^2.5.1",
+    "@nextui-org/react": "^2.2.9",
     "@react-three/fiber": "^8.15.11",
     "@types/three": "^0.158.2",
+    "framer-motion": "^10.16.5",
     "next": "13.5.5",
     "react": "^18",
     "react-dom": "^18",

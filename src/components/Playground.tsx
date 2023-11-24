@@ -5,12 +5,28 @@ import { useState } from "react";
 export default function Playground() {
   const [data, setData] = useState<string | undefined>(undefined);
   const notify = () => toast("Tests triggered!");
+  // const fetchAPI = async () => {
+  //   try {
+  //     notify();
+  //     const resp = await fetch("https://api.dragosportfolio.com", {
+  //       method: "GET",
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+  //     const body = await resp.json();
+  //     setData(JSON.stringify(body));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const fetchAPI = async () => {
     try {
       notify();
-      const resp = await fetch("https://api.dragosportfolio.com", {
-        method: "GET",
+      const resp = await fetch("http://localhost:5066/playground", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ITEM: "cake",
+        }),
       });
       const body = await resp.json();
       setData(JSON.stringify(body));

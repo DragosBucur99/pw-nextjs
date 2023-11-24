@@ -1,65 +1,65 @@
-import { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa";
+"use client";
+import { useState } from "react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+  Link,
+} from "@nextui-org/react";
 
 export default function Nav() {
-  // const scrollThreshold = 100;
-
-  // const [isVisible, setIsVisible] = useState(true);
-  // const [prevScrollY, setPrevScrollY] = useState(0);
-  // const [direction, setDirection] = useState({ face: "", pos: 0 });
-
-  // useEffect(() => {
-  //   // Function to handle the scroll event
-  //   const handleScroll = () => {
-  //     const currentScrollY = window.scrollY;
-
-  //     if (currentScrollY > prevScrollY) {
-  //       if (direction.face !== "down")
-  //         setDirection({ face: "down", pos: currentScrollY });
-  //     } else if (currentScrollY < prevScrollY) {
-  //       if (direction.face !== "up")
-  //         setDirection({ face: "up", pos: currentScrollY });
-  //     }
-
-  //     if (
-  //       direction.face === "down" &&
-  //       currentScrollY - direction.pos > scrollThreshold
-  //     ) {
-  //       setIsVisible(false);
-  //     }
-
-  //     if (
-  //       direction.face === "up" &&
-  //       direction.pos - currentScrollY > scrollThreshold - 80
-  //     ) {
-  //       setIsVisible(true);
-  //     }
-  //     // Update the previous scroll position
-  //     setPrevScrollY(currentScrollY);
-  //   };
-
-  //   // Attach the scroll event listener
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   // Clean up the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [prevScrollY, direction]); // Include prevScrollY as a dependency
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuItems = ["Home", "About", "App", "Contact"];
 
   return (
-    <nav className="flex shadow-md sticky items-center top-10 text-lg justify-between w-full p-5 rounded-md bg-neutral-700 z-10">
-      <span className="flex items-center gap-3">
-        <div className="rounded-full w-3 h-3 bg-green-400"></div>
-        Available
-      </span>
-      <FaBars className="lg:hidden" />
-      <ul className="hidden gap-10 lg:flex">
-        <li className="highlight-nav">Home</li>
-        <li>About</li>
-        <li>App</li>
-        <li>Contact</li>
-      </ul>
-    </nav>
+    <Navbar
+      shouldHideOnScroll
+      onMenuOpenChange={setIsMenuOpen}
+      className="bg-neutral-700 rounded-md lg:px-40"
+      maxWidth="full"
+    >
+      <NavbarContent>
+        <NavbarBrand>
+          <span className="flex items-center gap-3">
+            <div className="rounded-full w-3 h-3 bg-green-400"></div>
+            Available
+          </span>
+        </NavbarBrand>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+      </NavbarContent>
+
+      <NavbarContent className="hidden sm:flex gap-10" justify="end">
+        {menuItems.map((item, index) => (
+          <NavbarItem key={index}>{item}</NavbarItem>
+        ))}
+      </NavbarContent>
+      <NavbarMenu className="bg-neutral-700">
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === 2
+                  ? "primary"
+                  : index === menuItems.length - 1
+                  ? "danger"
+                  : "foreground"
+              }
+              className="w-full"
+              href="#"
+              size="lg"
+            >
+              {item}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
   );
 }
