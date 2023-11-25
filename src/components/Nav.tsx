@@ -19,7 +19,7 @@ export default function Nav() {
     <Navbar
       shouldHideOnScroll
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-neutral-700 rounded-md lg:px-40"
+      className="bg-neutral-800 rounded-md shadow-md lg:px-40"
       maxWidth="full"
     >
       <NavbarContent>
