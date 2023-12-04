@@ -20,7 +20,8 @@ import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
 
 export default function Playground() {
-  const apiURL = process.env.URL || process.env.NEXT_PUBLIC_URL;
+  const apiURL =
+    process.env.NEXT_PUBLIC_URL || "https://api.dragosportfolio.com";
   const [data, setData] = useState<any>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [spinner, setSpinner] = useState<boolean>(false);
