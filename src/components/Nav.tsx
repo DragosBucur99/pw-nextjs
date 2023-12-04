@@ -24,9 +24,9 @@ export default function Nav() {
     >
       <NavbarContent>
         <NavbarBrand>
-          <span className="flex items-center gap-3">
+          <span className="flex items-center gap-3 cursor-pointer">
             <div className="rounded-full w-3 h-3 bg-green-400"></div>
-            Available
+            Available for work
           </span>
         </NavbarBrand>
         <NavbarMenuToggle
@@ -37,7 +37,9 @@ export default function Nav() {
 
       <NavbarContent className="hidden sm:flex gap-10" justify="end">
         {menuItems.map((item, index) => (
-          <NavbarItem key={index}>{item}</NavbarItem>
+          <a href="#" key={index}>
+            <NavbarItem>{item}</NavbarItem>
+          </a>
         ))}
       </NavbarContent>
       <NavbarMenu className="bg-neutral-700">

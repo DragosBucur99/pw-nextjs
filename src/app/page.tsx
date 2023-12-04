@@ -1,16 +1,15 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@nextui-org/button";
-import Cube from "@/components/Threejs/Cube";
-import { Canvas, useFrame } from "@react-three/fiber";
 import Playground from "@/components/Playground";
 import Card from "@/components/Card";
-import { SlMagnifier } from "react-icons/sl";
+import { PiTreeStructureThin as TreeStructure } from "react-icons/pi";
 import { CiRoute } from "react-icons/ci";
 import { CiClock1 } from "react-icons/ci";
 import ContactForm from "@/components/ContactForm";
 import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
-import { User, Divider } from "@nextui-org/react";
+import { User, Divider, Chip } from "@nextui-org/react";
+import { SiPlaywright, SiCypress, SiPostman } from "react-icons/si";
 
 export default function Home() {
   return (
@@ -24,7 +23,7 @@ export default function Home() {
             Building <span className="text-blue-500">Quality</span>, One Test at
             a Time
           </h1>
-          <div className="pt-5 text-base opacity-90 leading-6 flex lg:flex-row flex-col flex-col-reverse gap-5">
+          <div className="pt-5 flex lg:flex-row flex-col flex-col-reverse gap-5">
             <User
               className="w-full"
               name="Dragos Bucur"
@@ -34,7 +33,7 @@ export default function Home() {
               }}
             />
             <Divider orientation="vertical" className="hidden lg:block" />
-            <p>
+            <p className="text-base opacity-90 leading-6">
               I specialize in crafting robust solutions that stand the test of
               quality. Join me on a journey where precision and innovation
               converge - let&apos;s elevate the standards of software
@@ -69,19 +68,66 @@ export default function Home() {
         <h1>Skills</h1>
         <div className="flex gap-10 flex-col flex-wrap lg:flex-row">
           <Card
-            title="UI/UX"
-            icon={SlMagnifier}
-            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint repudiandae nulla possimus ducimus necessitatibus nam."
+            title="End-to-End"
+            icon={TreeStructure}
+            text="End-to-End (E2E) testing evaluates your software's complete workflow, ensuring seamless integration and functionality across all components. It validates the entire system, guaranteeing a robust and reliable user experience."
+            chips={[
+              <Chip
+                key="Playwright"
+                startContent={<SiPlaywright size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Playwright
+              </Chip>,
+              <Chip
+                key="Cypress"
+                startContent={<SiCypress size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Cypress
+              </Chip>,
+            ]}
+            hrefs={["https://playwright.com", "https://cypress.io"]}
           />
           <Card
             title="API"
             icon={CiRoute}
-            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint repudiandae nulla possimus ducimus necessitatibus nam."
+            text="API testing focuses on verifying the functionality and reliability of your software's APIs. It ensures seamless communication between different software components, validating data exchange and functionality with precision."
+            chips={[
+              <Chip
+                key="Postman"
+                startContent={<SiPostman size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Postman
+              </Chip>,
+              <Chip
+                key="Playwright"
+                startContent={<SiPlaywright size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Playwright
+              </Chip>,
+            ]}
+            hrefs={["https://www.postman.com/", "https://playwright.com"]}
           />
           <Card
             title="PERFORMANCE"
             icon={CiClock1}
-            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint repudiandae nulla possimus ducimus necessitatibus nam."
+            text="Performance testing evaluates the speed, responsiveness, and stability of your software under various conditions. It ensures your application delivers optimal user experiences, even during peak loads, by identifying and addressing performance bottlenecks."
+            chips={[
+              <Chip key="K6" variant="faded" color="primary">
+                K6
+              </Chip>,
+              <Chip key="Loadtest" variant="faded" color="primary">
+                Loadtest
+              </Chip>,
+            ]}
+            hrefs={["https://k6.io/", "https://www.npmjs.com/package/loadtest"]}
           />
         </div>
       </section>

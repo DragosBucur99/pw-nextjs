@@ -38,3 +38,4 @@ next-env.d.ts
 /playwright/.cache/
 
 /package-lock.json
+.env
