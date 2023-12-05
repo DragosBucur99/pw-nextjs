@@ -16,14 +16,14 @@ export default function Home() {
     <main className="flex flex-col gap-36 lg:gap-52 text-3xl">
       <section
         id="hero-section"
-        className="flex flex-wrap w-full flex-col-reverse gap-10 lg:gap-0 lg:flex-row sm:flex-col"
+        className="flex flex-wrap w-full flex-col flex-col-reverse md:flex-row md:justify-center md:items-center"
       >
-        <div className="flex-1 flex flex-col lg:justify-center">
+        <div className="flex-1 flex flex-col">
           <h1>
             Building <span className="text-blue-500">Quality</span>, One Test at
             a Time
           </h1>
-          <div className="pt-5 flex lg:flex-row flex-col flex-col-reverse gap-5">
+          <div className="mt-5 flex flex-col flex-col-reverse gap-1 xl:flex-row xl:gap-5">
             <User
               className="w-full"
               name="Dragos Bucur"
@@ -32,7 +32,9 @@ export default function Home() {
                 src: "man.png",
               }}
             />
-            <Divider orientation="vertical" className="hidden lg:block" />
+            <div>
+              <Divider orientation="vertical" className="hidden xl:block" />
+            </div>
             <p className="text-base opacity-90 leading-6">
               I specialize in crafting robust solutions that stand the test of
               quality. Join me on a journey where precision and innovation
@@ -51,8 +53,13 @@ export default function Home() {
             Scroll down
           </span>
         </div>
-        <div className="relative flex-1 flex items-center justify-end">
-          <Image width={600} height={600} alt="hero" src="/hero_2.svg" />
+        <div className="relative flex-1 flex items-center justify-end maskImage">
+          <Image
+            width={600}
+            height={600}
+            alt="Finding bugs in the code"
+            src="/bugs.gif"
+          />
         </div>
       </section>
       <section id="playground-section" className="flex gap-10 flex-col">
