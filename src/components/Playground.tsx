@@ -20,13 +20,25 @@ import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
 
 export default function Playground() {
+  interface Test {
+    title: string;
+    steps?: string[];
+    expectedOutput?: string;
+  }
+
+  interface TestCase {
+    steps: string[];
+    expectedOutput: string;
+  }
+
   const apiURL =
     process.env.NEXT_PUBLIC_URL || "https://api.dragosportfolio.com";
   const [data, setData] = useState<any>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [spinner, setSpinner] = useState<boolean>(false);
-  const [tests, setTests] = useState<string[]>([]);
-  const [selectedTest, setSelectedTest] = useState();
+  const [tests, setTests] = useState<Test[]>([]);
+  const [selectedTest, setSelectedTest] = useState<any>();
+  const [testCase, setTestCase] = useState<TestCase>();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   // const [selectedKeys, setSelectedKeys] = useState(new Set(tests[0]));
 
@@ -46,6 +58,15 @@ export default function Playground() {
   useEffect(() => {
     fetchTests();
   }, []);
+
+  useEffect(() => {
+    const test = tests.find((test) => test.title === selectedTest);
+    if (test?.steps && test?.expectedOutput) {
+      setTestCase({ steps: test.steps, expectedOutput: test.expectedOutput });
+    } else {
+      setTestCase(undefined);
+    }
+  }, [selectedTest]);
 
   const fetchAPI = async () => {
     let body;
@@ -115,20 +136,30 @@ export default function Playground() {
             disallowEmptySelection
             selectionMode="single"
             onSelectionChange={(keys) =>
-              setSelectedTest(
-                // @ts-ignore
-                tests[Array.from(keys).join("")].replace(/['"]/g, "")
-              )
+              // @ts-ignore
+              setSelectedTest(tests[Array.from(keys).join("")].title)
             }
           >
             {tests.map((test, index) => (
-              <ListboxItem key={index}>{test.replace(/['"]/g, "")}</ListboxItem>
+              <ListboxItem key={index}>{test.title}</ListboxItem>
             ))}
           </Listbox>
         </div>
         {spinner && (
           <div className="flex border-small border-default-200 px-1 py-2 rounded-small min-h-[10rem] items-center justify-center">
             <Spinner label="Loading..." />
+          </div>
+        )}
+        {testCase && (
+          <div>
+            <span>Steps:</span>
+            <ul>
+              {testCase.steps.map((step, index) => (
+                <li key={index}>{`${index + 1}. ${step}`}</li>
+              ))}
+            </ul>
+            <span>Expected output:</span>
+            <p>{testCase.expectedOutput}</p>
           </div>
         )}
         {data && !spinner && (

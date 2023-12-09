@@ -55,10 +55,10 @@ export default function Home() {
         </div>
         <div className="relative flex-1 flex items-center justify-end maskImage">
           <Image
-            width={600}
-            height={600}
+            width={700}
+            height={700}
             alt="Finding bugs in the code"
-            src="/bugs.gif"
+            src="/hero.gif"
           />
         </div>
       </section>
