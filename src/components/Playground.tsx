@@ -7,6 +7,10 @@ import {
   ListboxItem,
   Spinner,
   Skeleton,
+  Tabs,
+  Tab,
+  Card,
+  CardBody,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -151,15 +155,37 @@ export default function Playground() {
           </div>
         )}
         {testCase && (
-          <div>
-            <span>Steps:</span>
-            <ul>
-              {testCase.steps.map((step, index) => (
-                <li key={index}>{`${index + 1}. ${step}`}</li>
-              ))}
-            </ul>
-            <span>Expected output:</span>
-            <p>{testCase.expectedOutput}</p>
+          <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small min-h-[10rem] text-base">
+            <Tabs aria-label="Options">
+              <Tab key="case" title="Test case">
+                <Card>
+                  <CardBody className="flex flex-col gap-2">
+                    <span className="text-[#0070f0] font-bold">Steps:</span>
+                    <ul>
+                      {testCase.steps.map((step, index) => (
+                        <li key={index}>{`${index + 1}. ${step}`}</li>
+                      ))}
+                    </ul>
+                    <div>
+                      <span className="text-[#0070f0] font-bold">
+                        Expected output:
+                      </span>
+                      <p>{testCase.expectedOutput}</p>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Tab>
+              <Tab key="options" title="Options">
+                <Card>
+                  <CardBody>
+                    <p>Options</p>
+                  </CardBody>
+                </Card>
+              </Tab>
+              <Tab key="report" title="Report" isDisabled>
+                <p>Report</p>
+              </Tab>
+            </Tabs>
           </div>
         )}
         {data && !spinner && (
