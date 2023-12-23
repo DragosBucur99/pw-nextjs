@@ -10,13 +10,14 @@ import ContactForm from "@/components/ContactForm";
 import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
 import { User, Divider, Chip } from "@nextui-org/react";
 import { SiPlaywright, SiCypress, SiPostman } from "react-icons/si";
+import ScrollDown from "@/components/ScrollDown";
 
 export default function Home() {
   return (
     <main className="flex flex-col gap-36 lg:gap-52 text-3xl">
       <section
         id="hero-section"
-        className="flex flex-wrap w-full flex-col flex-col-reverse md:flex-row md:justify-center md:items-center"
+        className="relative flex flex-wrap w-full flex-col flex-col-reverse md:flex-row md:justify-center md:items-center"
       >
         <div className="flex-1 flex flex-col">
           <h1>
@@ -36,10 +37,8 @@ export default function Home() {
               <Divider orientation="vertical" className="hidden xl:block" />
             </div>
             <p className="text-base opacity-90 leading-6">
-              I specialize in crafting robust solutions that stand the test of
-              quality. Join me on a journey where precision and innovation
-              converge - let&apos;s elevate the standards of software
-              development together!
+              SDET with a passion for quality. Explore my portfolio for expert
+              test automation and seamless user experiences.
             </p>
           </div>
 
@@ -49,9 +48,6 @@ export default function Home() {
               Contact
             </Button>
           </div>
-          <span className="text-sm flex items-center justify-center pt-10">
-            Scroll down
-          </span>
         </div>
         <div className="relative flex-1 flex items-center justify-end maskImage">
           <Image
@@ -61,6 +57,7 @@ export default function Home() {
             src="/hero.gif"
           />
         </div>
+        <ScrollDown />
       </section>
       <section id="playground-section" className="flex gap-10 flex-col">
         <div>

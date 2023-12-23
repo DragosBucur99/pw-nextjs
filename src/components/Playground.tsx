@@ -19,6 +19,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Input,
 } from "@nextui-org/react";
 import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
@@ -28,11 +29,21 @@ export default function Playground() {
     title: string;
     steps?: string[];
     expectedOutput?: string;
+    options?: {
+      name: string;
+      type: string;
+      label: string;
+    }[];
   }
 
   interface TestCase {
     steps: string[];
     expectedOutput: string;
+    options: {
+      name: string;
+      type: string;
+      label: string;
+    }[];
   }
 
   const apiURL =
@@ -65,8 +76,12 @@ export default function Playground() {
 
   useEffect(() => {
     const test = tests.find((test) => test.title === selectedTest);
-    if (test?.steps && test?.expectedOutput) {
-      setTestCase({ steps: test.steps, expectedOutput: test.expectedOutput });
+    if (test?.steps && test?.expectedOutput && test?.options) {
+      setTestCase({
+        steps: test.steps,
+        expectedOutput: test.expectedOutput,
+        options: test.options,
+      });
     } else {
       setTestCase(undefined);
     }
@@ -155,7 +170,7 @@ export default function Playground() {
           </div>
         )}
         {testCase && (
-          <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small min-h-[10rem] text-base">
+          <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small  text-base">
             <Tabs aria-label="Options">
               <Tab key="case" title="Test case">
                 <Card>
@@ -178,7 +193,18 @@ export default function Playground() {
               <Tab key="options" title="Options">
                 <Card>
                   <CardBody>
-                    <p>Options</p>
+                    <ul>
+                      {testCase.options?.map((option, index) => (
+                        <li key={index} className="flex flex-col gap-3">
+                          {option.name}
+                          {option.type === "searchbox" ? (
+                            <Input type="submit" />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                      ))}
+                    </ul>
                   </CardBody>
                 </Card>
               </Tab>
