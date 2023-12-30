@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Button,
   Listbox,
@@ -11,6 +11,10 @@ import {
   Tab,
   Card,
   CardBody,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -53,9 +57,23 @@ export default function Playground() {
   const [spinner, setSpinner] = useState<boolean>(false);
   const [tests, setTests] = useState<Test[]>([]);
   const [selectedTest, setSelectedTest] = useState<any>();
+  const [selectedKeyTest, setSelectedKeyTest] = useState(new Set(["0"]));
   const [testCase, setTestCase] = useState<TestCase>();
+  const [inputValue, setInputValue] = useState<string>("");
+  const [reportTabVisibility, setReportTabVisibility] = useState<boolean>(true);
+  const [focusTab, setFocusTab] = useState("case");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // const [selectedKeys, setSelectedKeys] = useState(new Set(tests[0]));
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["fitness buddy"]));
+
+  const selectedKeyTestValue = useMemo(
+    () => Array.from(selectedKeyTest).join(", "),
+    [selectedKeyTest]
+  );
+
+  const selectedValue = useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
 
   const fetchTests = async () => {
     let resp, body;
@@ -66,7 +84,10 @@ export default function Playground() {
     } catch (error) {
       console.error("Error fetching tests:", error);
     } finally {
-      if (resp?.ok) setIsLoaded(true);
+      if (resp?.ok) {
+        setIsLoaded(true);
+        setSelectedTest(body.tests[0].title);
+      }
     }
   };
 
@@ -85,18 +106,24 @@ export default function Playground() {
     } else {
       setTestCase(undefined);
     }
+    setReportTabVisibility(true);
   }, [selectedTest]);
 
   const fetchAPI = async () => {
     let body;
     try {
       setSpinner(true);
+      setReportTabVisibility(false);
+      setFocusTab("report");
       // notify();
       const resp = await fetch(apiURL + "/playground", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           TEST: selectedTest,
+          // @ts-ignore
+          [testCase?.options.find((option) => option.type === "searchbox")
+            .label]: inputValue,
         }),
       });
       body = await resp.json();
@@ -147,33 +174,69 @@ export default function Playground() {
   };
   return (
     <Skeleton isLoaded={isLoaded}>
-      <div className="flex flex-col gap-2">
-        <div className="border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
+      <div className="flex flex-col gap-2 lg:flex-row">
+        <div className="border-small px-1 py-2 rounded-small border-default-200 dark:border-default-200 overflow-y-auto lg:flex-1">
+          <div className="px-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="solid" className="capitalize">
+                  {selectedValue}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disabledKeys={["catan", "automation"]}
+                aria-label="Single selection example"
+                variant="faded"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={selectedKeys}
+                // @ts-ignore
+                onSelectionChange={setSelectedKeys}
+              >
+                <DropdownItem key="fitness buddy">Fitness Buddy</DropdownItem>
+                <DropdownItem key="catan" description="Coming soon...">
+                  Catan
+                </DropdownItem>
+                <DropdownItem key="automation" description="Coming soon...">
+                  Automation
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
           <Listbox
+            id="testsList"
+            className="mt-5"
             aria-label="Single selection example"
             variant="flat"
             disallowEmptySelection
             selectionMode="single"
-            onSelectionChange={(keys) =>
+            selectedKeys={selectedKeyTestValue}
+            onSelectionChange={(keys) => {
               // @ts-ignore
-              setSelectedTest(tests[Array.from(keys).join("")].title)
-            }
+              setSelectedTest(tests[Array.from(keys).join("")].title);
+              // @ts-ignore
+              return setSelectedKeyTest(keys);
+            }}
           >
             {tests.map((test, index) => (
               <ListboxItem key={index}>{test.title}</ListboxItem>
             ))}
           </Listbox>
         </div>
-        {spinner && (
-          <div className="flex border-small border-default-200 px-1 py-2 rounded-small min-h-[10rem] items-center justify-center">
-            <Spinner label="Loading..." />
-          </div>
-        )}
         {testCase && (
-          <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small  text-base">
-            <Tabs aria-label="Options">
-              <Tab key="case" title="Test case">
-                <Card>
+          <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small text-base lg:flex-1 h-72">
+            <Tabs
+              aria-label="Options"
+              selectedKey={focusTab}
+              // @ts-ignore
+              onSelectionChange={setFocusTab}
+            >
+              <Tab
+                key="case"
+                title="Test case"
+                className="h-full overflow-y-auto"
+              >
+                <Card className="h-full">
                   <CardBody className="flex flex-col gap-2">
                     <span className="text-[#0070f0] font-bold">Steps:</span>
                     <ul>
@@ -190,17 +253,23 @@ export default function Playground() {
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab key="options" title="Options">
-                <Card>
+              <Tab
+                key="options"
+                title="Options"
+                className="h-full overflow-y-auto"
+              >
+                <Card className="h-full">
                   <CardBody>
                     <ul>
                       {testCase.options?.map((option, index) => (
                         <li key={index} className="flex flex-col gap-3">
                           {option.name}
-                          {option.type === "searchbox" ? (
-                            <Input type="submit" />
-                          ) : (
-                            ""
+                          {option.type === "searchbox" && (
+                            <Input
+                              type="text"
+                              value={inputValue}
+                              onChange={(e) => setInputValue(e.target.value)}
+                            />
                           )}
                         </li>
                       ))}
@@ -208,77 +277,96 @@ export default function Playground() {
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab key="report" title="Report" isDisabled>
-                <p>Report</p>
+              <Tab
+                key="report"
+                title="Report"
+                className="h-full"
+                isDisabled={reportTabVisibility}
+              >
+                <Card className="h-full">
+                  {spinner && (
+                    <CardBody className="flex items-center justify-center">
+                      <Spinner label="Loading..." />
+                    </CardBody>
+                  )}
+                  {data && !spinner && (
+                    <CardBody className="flex gap-5 items-center justify-center">
+                      {data.summary.toLowerCase().includes("1 ok") ? (
+                        <p className="text-xl">Test passed</p>
+                      ) : (
+                        <p className="text-xl">Test failed</p>
+                      )}
+                      <div>
+                        <Button
+                          onPress={onOpen}
+                          color={
+                            data.summary.toLowerCase().includes("1 ok")
+                              ? "success"
+                              : "danger"
+                          }
+                        >
+                          Preview Report
+                        </Button>
+                        <Modal
+                          isOpen={isOpen}
+                          onOpenChange={onOpenChange}
+                          size="5xl"
+                          className="h-[80%]"
+                        >
+                          <ModalContent>
+                            {(onClose) => (
+                              <>
+                                <ModalHeader className="flex flex-col gap-1">
+                                  Report
+                                </ModalHeader>
+                                <ModalBody>
+                                  <iframe
+                                    title="Your HTML Content"
+                                    src={apiURL + "/html"}
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                </ModalBody>
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={onClose}
+                                  >
+                                    Close
+                                  </Button>
+                                  <Button
+                                    color="primary"
+                                    startContent={<DownloadIcon />}
+                                    onPress={fetchZip}
+                                  >
+                                    Download
+                                  </Button>
+                                </ModalFooter>
+                              </>
+                            )}
+                          </ModalContent>
+                        </Modal>
+                      </div>
+                    </CardBody>
+                  )}
+                </Card>
               </Tab>
             </Tabs>
           </div>
         )}
-        {data && !spinner && (
-          <div className="flex flex-col gap-2 border-small border-default-200 px-1 py-2 rounded-small min-h-[10rem] items-center justify-center">
-            {data.summary.toLowerCase().includes("1 ok")
-              ? "Test passed"
-              : "Test failed"}
-            <div>
-              <Button
-                onPress={onOpen}
-                color={
-                  data.summary.toLowerCase().includes("1 ok")
-                    ? "success"
-                    : "danger"
-                }
-              >
-                Preview Report
-              </Button>
-              <Modal
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                size="5xl"
-                className="h-[80%]"
-              >
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        Report
-                      </ModalHeader>
-                      <ModalBody>
-                        <iframe
-                          title="Your HTML Content"
-                          src={apiURL + "/html"}
-                          width="100%"
-                          height="100%"
-                        />
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          color="danger"
-                          variant="light"
-                          onPress={onClose}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          color="primary"
-                          startContent={<DownloadIcon />}
-                          onPress={fetchZip}
-                        >
-                          Download
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
-            </div>
-          </div>
-        )}
-        <Button color="primary" onClick={runTests} startContent={<StartIcon />}>
-          Run Test
-        </Button>
 
         <ToastContainer />
       </div>
+      <Button
+        color="primary"
+        size="lg"
+        className="mt-2"
+        onClick={runTests}
+        startContent={<StartIcon />}
+      >
+        Run Test
+      </Button>
     </Skeleton>
   );
 }

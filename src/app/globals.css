@@ -78,3 +78,7 @@ body {
   background-image: url('../../public/bg.svg');
   background-position: center center;
 }
+
+#testsList li[data-selected='true'] {
+background-color: #27272A;
+}
