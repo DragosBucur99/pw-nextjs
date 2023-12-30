@@ -26,7 +26,7 @@ export default function Home() {
           </h1>
           <div className="mt-5 flex flex-col flex-col-reverse gap-1 xl:flex-row xl:gap-5">
             <User
-              className="w-full"
+              className="w-full justify-start"
               name="Dragos Bucur"
               description="Software Development Engineer in Test"
               avatarProps={{
