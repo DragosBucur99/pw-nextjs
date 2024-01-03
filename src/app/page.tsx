@@ -135,9 +135,21 @@ export default function Home() {
           />
         </div>
       </section>
-      <section id="contact-section" className="flex gap-10 flex-col">
+      <section id="contact-section" className="flex gap-10 flex-col ">
         <h1>Let&apos;s chat!</h1>
-        <ContactForm />
+        <div className="lg:flex lg:flex-row gap-24">
+          <div className="flex-1">
+            <ContactForm />
+          </div>
+          <div className="relative flex-1">
+            <Image
+              className="hidden lg:block"
+              fill={true}
+              alt="Finding bugs in the code"
+              src="/plane.svg"
+            />
+          </div>
+        </div>
       </section>
     </main>
   );

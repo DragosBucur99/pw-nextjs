@@ -1,24 +1,49 @@
 import { useForm, ValidationError } from "@formspree/react";
 import { Button } from "@nextui-org/button";
 import { Input, Textarea } from "@nextui-org/react";
-import { IoRocketOutline as Rocket } from "react-icons/io5";
+import { FaPaperPlane as PaperPlane } from "react-icons/fa";
 import { useMemo, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mknlazko");
-  const [value, setValue] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
   const isInvalid = useMemo(() => {
-    if (value === "") return false;
+    if (formData.email === "") return false;
 
-    return validateEmail(value) ? false : true;
-  }, [value]);
-  if (state.succeeded) {
-    return <p>Message sent!</p>;
-  }
+    return validateEmail(formData.email) ? false : true;
+  }, [formData]);
+
+  const handleFormSubmit = async (e: any) => {
+    try {
+      await toast.promise(handleSubmit(e), {
+        pending: "Sending message...",
+        success: "Message sent!",
+        error: "Failed to send the message. Please try again later!",
+      });
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+    <form
+      onSubmit={(e) => handleFormSubmit(e)}
+      className="flex flex-col gap-10"
+    >
       <div>
         <Input
           size="lg"
@@ -27,12 +52,13 @@ export default function ContactForm() {
           name="name"
           variant="underlined"
           label="Name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
         <ValidationError prefix="Name" field="name" errors={state.errors} />
       </div>
       <div>
         <Input
-          value={value}
           size="lg"
           type="email"
           id="email"
@@ -41,7 +67,8 @@ export default function ContactForm() {
           label="Email Address"
           isInvalid={isInvalid}
           errorMessage={isInvalid && "Please enter a valid email"}
-          onValueChange={setValue}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
         <ValidationError prefix="Email" field="email" errors={state.errors} />
       </div>
@@ -53,7 +80,10 @@ export default function ContactForm() {
           label="Mesasage"
           variant="underlined"
           placeholder="Enter your message"
-          className="max-w-xs"
+          value={formData.message}
+          onChange={(e) =>
+            setFormData({ ...formData, message: e.target.value })
+          }
         />
         <ValidationError
           prefix="Message"
@@ -63,16 +93,18 @@ export default function ContactForm() {
       </div>
       <div className="mt-5">
         <Button
+          isLoading={state.submitting}
           type="submit"
           color="primary"
-          endContent={<Rocket size={25} />}
+          disabled={state.submitting}
+          endContent={<PaperPlane size={20} />}
           size="lg"
           className="text-xl font-bold"
         >
           Send
         </Button>
-        {/* <Button name="Send 🚀" type="submit" disabled={state.submitting} /> */}
       </div>
+      <ToastContainer autoClose={3000} />
     </form>
   );
 }
