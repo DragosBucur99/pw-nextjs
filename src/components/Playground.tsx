@@ -231,13 +231,9 @@ export default function Playground() {
               // @ts-ignore
               onSelectionChange={setFocusTab}
             >
-              <Tab
-                key="case"
-                title="Test case"
-                className="h-full overflow-y-auto"
-              >
+              <Tab key="case" title="Test case">
                 <Card className="h-full">
-                  <CardBody className="flex flex-col gap-2">
+                  <CardBody className="flex flex-col gap-2 h-52 overflow-y-auto">
                     <span className="text-[#0070f0] font-bold">Steps:</span>
                     <ul>
                       {testCase.steps.map((step, index) => (
@@ -253,13 +249,9 @@ export default function Playground() {
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab
-                key="options"
-                title="Options"
-                className="h-full overflow-y-auto"
-              >
+              <Tab key="options" title="Options">
                 <Card className="h-full">
-                  <CardBody>
+                  <CardBody className="h-52 overflow-y-auto">
                     <ul>
                       {testCase.options?.map((option, index) => (
                         <li key={index} className="flex flex-col gap-3">
@@ -277,15 +269,10 @@ export default function Playground() {
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab
-                key="report"
-                title="Report"
-                className="h-full"
-                isDisabled={reportTabVisibility}
-              >
+              <Tab key="report" title="Report" isDisabled={reportTabVisibility}>
                 <Card className="h-full">
                   {spinner && (
-                    <CardBody className="flex items-center justify-center">
+                    <CardBody className="flex items-center justify-center h-52 overflow-y-auto">
                       <Spinner label="Loading..." />
                     </CardBody>
                   )}
