@@ -11,6 +11,7 @@ import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
 import { User, Divider, Chip } from "@nextui-org/react";
 import { SiPlaywright, SiCypress, SiPostman } from "react-icons/si";
 import ScrollDown from "@/components/ScrollDown";
+import Testimonial from "@/components/Testimonial";
 
 export default function Home() {
   return (
@@ -134,6 +135,9 @@ export default function Home() {
             hrefs={["https://k6.io/", "https://www.npmjs.com/package/loadtest"]}
           />
         </div>
+      </section>
+      <section id="testimonials-section">
+        <Testimonial />
       </section>
       <section id="contact-section" className="flex gap-10 flex-col ">
         <h1>Let&apos;s chat!</h1>
