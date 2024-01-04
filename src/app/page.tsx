@@ -8,10 +8,11 @@ import { CiRoute } from "react-icons/ci";
 import { CiClock1 } from "react-icons/ci";
 import ContactForm from "@/components/ContactForm";
 import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
-import { User, Divider, Chip } from "@nextui-org/react";
+import { User, Divider, Chip, Link } from "@nextui-org/react";
 import { SiPlaywright, SiCypress, SiPostman } from "react-icons/si";
 import ScrollDown from "@/components/ScrollDown";
 import Testimonial from "@/components/Testimonial";
+import { FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -28,7 +29,17 @@ export default function Home() {
           <div className="mt-5 flex flex-col flex-col-reverse gap-1 xl:flex-row xl:gap-5">
             <User
               className="w-full justify-start"
-              name="Dragos Bucur"
+              name={
+                <Link
+                  href="https://www.linkedin.com/in/dragos-bucur-b73966264/"
+                  size="sm"
+                  isExternal
+                  showAnchorIcon
+                  anchorIcon={<FaLinkedin />}
+                >
+                  Dragos Bucur
+                </Link>
+              }
               description="Software Development Engineer in Test"
               avatarProps={{
                 src: "man.png",
