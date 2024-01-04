@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -13,22 +13,44 @@ import {
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [sectionIdToScroll, setSectionIdToScroll] = useState("");
+
+  const scrollToSection = (sectionId: string) => {
+    setIsMenuOpen(false);
+    setSectionIdToScroll(sectionId);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById(sectionIdToScroll);
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    if (!isMenuOpen && sectionIdToScroll) {
+      handleScroll();
+      setSectionIdToScroll("");
+    }
+  }, [isMenuOpen, sectionIdToScroll]);
+
   const menuItems = [
     {
       name: "Home",
-      href: "#hero-section",
+      href: "hero-section",
     },
     {
       name: "Playground",
-      href: "#playground-section",
+      href: "playground-section",
     },
     {
       name: "Skills",
-      href: "#skills-section",
+      href: "skills-section",
     },
     {
       name: "Contact",
-      href: "#contact-section",
+      href: "contact-section",
     },
   ];
 
@@ -55,19 +77,22 @@ export default function Nav() {
 
       <NavbarContent className="hidden sm:flex gap-10" justify="end">
         {menuItems.map((item, index) => (
-          <a href={item.href} key={index}>
+          <Link
+            key={index}
+            onClick={() => scrollToSection(item.href)}
+            className="cursor-pointer text-white"
+          >
             <NavbarItem>{item.name}</NavbarItem>
-          </a>
+          </Link>
         ))}
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              className="w-full text-white"
-              href={item.href}
+              className="w-full text-white cursor-pointer"
               size="lg"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => scrollToSection(item.href)}
             >
               {item.name}
             </Link>
