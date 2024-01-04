@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .card ::-webkit-scrollbar {
   width: 4px;
 }

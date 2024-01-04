@@ -13,11 +13,29 @@ import {
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuItems = ["Home", "About", "App", "Contact"];
+  const menuItems = [
+    {
+      name: "Home",
+      href: "#hero-section",
+    },
+    {
+      name: "Playground",
+      href: "#playground-section",
+    },
+    {
+      name: "Skills",
+      href: "#skills-section",
+    },
+    {
+      name: "Contact",
+      href: "#contact-section",
+    },
+  ];
 
   return (
     <Navbar
       shouldHideOnScroll
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       className="bg-neutral-800 rounded-md shadow-md lg:px-40"
       maxWidth="full"
@@ -37,27 +55,21 @@ export default function Nav() {
 
       <NavbarContent className="hidden sm:flex gap-10" justify="end">
         {menuItems.map((item, index) => (
-          <a href="#" key={index}>
-            <NavbarItem>{item}</NavbarItem>
+          <a href={item.href} key={index}>
+            <NavbarItem>{item.name}</NavbarItem>
           </a>
         ))}
       </NavbarContent>
-      <NavbarMenu className="bg-neutral-700">
+      <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              color={
-                index === 2
-                  ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
-              className="w-full"
-              href="#"
+              className="w-full text-white"
+              href={item.href}
               size="lg"
+              onClick={() => setIsMenuOpen(false)}
             >
-              {item}
+              {item.name}
             </Link>
           </NavbarMenuItem>
         ))}
