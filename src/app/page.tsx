@@ -13,8 +13,30 @@ import { SiPlaywright, SiCypress, SiPostman } from "react-icons/si";
 import ScrollDown from "@/components/ScrollDown";
 import Testimonial from "@/components/Testimonial";
 import { FaLinkedin } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [sectionIdToScroll, setSectionIdToScroll] = useState("");
+
+  const scrollToSection = (sectionId: string) => {
+    setSectionIdToScroll(sectionId);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById(sectionIdToScroll);
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    if (sectionIdToScroll) {
+      handleScroll();
+      setSectionIdToScroll("");
+    }
+  }, [sectionIdToScroll]);
+
   return (
     <main className="flex flex-col gap-36 lg:gap-52 text-3xl">
       <section
@@ -56,7 +78,12 @@ export default function Home() {
 
           <div className="pt-5 flex gap-1 items-center">
             <BendArrow size={60} />
-            <Button size="lg" color="primary" className="text-xl font-bold">
+            <Button
+              size="lg"
+              color="primary"
+              className="text-xl font-bold"
+              onClick={() => scrollToSection("contact-section")}
+            >
               Contact
             </Button>
           </div>
