@@ -15,6 +15,8 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Chip,
+  Tooltip,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -27,6 +29,7 @@ import {
 } from "@nextui-org/react";
 import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
+import { FaExclamationTriangle as ExclamationTriangle } from "react-icons/fa";
 
 export default function Playground() {
   interface Test {
@@ -59,11 +62,29 @@ export default function Playground() {
   const [selectedTest, setSelectedTest] = useState<any>();
   const [selectedKeyTest, setSelectedKeyTest] = useState(new Set(["0"]));
   const [testCase, setTestCase] = useState<TestCase>();
-  const [inputValue, setInputValue] = useState<string>("");
   const [reportTabVisibility, setReportTabVisibility] = useState<boolean>(true);
   const [focusTab, setFocusTab] = useState("case");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedKeys, setSelectedKeys] = useState(new Set(["fitness buddy"]));
+  const [formData, setFormData] = useState({});
+
+  const requiredInputs = Object.values(formData).filter(
+    (value) => value === ""
+  ).length;
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const isFormValid = () => {
+    // Check if all required fields are filled
+    // @ts-ignore
+    return Object.values(formData).every((field) => field.trim() !== "");
+  };
 
   const selectedKeyTestValue = useMemo(
     () => Array.from(selectedKeyTest).join(", "),
@@ -106,7 +127,16 @@ export default function Playground() {
     } else {
       setTestCase(undefined);
     }
+    if (test && test.options) {
+      const taskLabels = test.options.reduce((labels, option) => {
+        // @ts-ignore
+        labels[option.label] = "";
+        return labels;
+      }, {});
+      setFormData(taskLabels);
+    }
     setReportTabVisibility(true);
+    setFocusTab("case");
   }, [selectedTest]);
 
   const fetchAPI = async () => {
@@ -121,9 +151,7 @@ export default function Playground() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           TEST: selectedTest,
-          // @ts-ignore
-          [testCase?.options.find((option) => option.type === "searchbox")
-            .label]: inputValue,
+          ...formData,
         }),
       });
       body = await resp.json();
@@ -249,7 +277,22 @@ export default function Playground() {
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab key="options" title="Options">
+              <Tab
+                key="options"
+                title={
+                  <div className="flex items-center space-x-1">
+                    {requiredInputs > 0 && (
+                      <ExclamationTriangle className="text-red-400" size={10} />
+                    )}
+                    <span>Options</span>
+                    {requiredInputs > 0 && (
+                      <Chip size="sm" variant="faded" color="warning">
+                        {requiredInputs}
+                      </Chip>
+                    )}
+                  </div>
+                }
+              >
                 <Card className="h-full">
                   <CardBody className="h-52 overflow-y-auto">
                     <ul>
@@ -259,8 +302,11 @@ export default function Playground() {
                           {option.type === "searchbox" && (
                             <Input
                               type="text"
-                              value={inputValue}
-                              onChange={(e) => setInputValue(e.target.value)}
+                              // @ts-ignore
+                              value={formData[option.label]}
+                              name={option.label}
+                              // onChange={(e) => setInputValue(e.target.value)}
+                              onChange={handleInputChange}
                             />
                           )}
                         </li>
@@ -345,15 +391,25 @@ export default function Playground() {
 
         <ToastContainer />
       </div>
-      <Button
-        color="primary"
-        size="lg"
-        className="mt-2"
-        onClick={runTests}
-        startContent={<StartIcon />}
+      <Tooltip
+        className="pointer"
+        onClick={() => setFocusTab("options")}
+        placement="right"
+        content="Options missing..."
+        color="warning"
+        isOpen={!isFormValid()}
       >
-        Run Test
-      </Button>
+        <Button
+          isDisabled={!isFormValid()}
+          color="primary"
+          size="lg"
+          className="mt-2"
+          onClick={runTests}
+          startContent={<StartIcon />}
+        >
+          Run Test
+        </Button>
+      </Tooltip>
     </Skeleton>
   );
 }

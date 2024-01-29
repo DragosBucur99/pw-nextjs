@@ -67,7 +67,6 @@ input:focus, textarea:focus {
   outline: none;
 }
 
-
 footer::after {
   content: '';
   position: absolute;
@@ -103,3 +102,11 @@ body {
 #testsList li[data-selected='true'] {
 background-color: #27272A;
 }
+
+nav header {
+  padding: 0 !important;
+  }
+
+  div[role='tooltip'] {
+    cursor: pointer;
+  }

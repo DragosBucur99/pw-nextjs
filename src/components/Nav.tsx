@@ -59,7 +59,7 @@ export default function Nav() {
       shouldHideOnScroll
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-neutral-800 rounded-md shadow-md lg:px-40"
+      className="bg-neutral-800 rounded-md shadow-md px-5 lg:px-40"
       maxWidth="full"
     >
       <NavbarContent>
