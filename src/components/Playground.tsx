@@ -407,7 +407,7 @@ export default function Playground() {
           onClick={runTests}
           startContent={<StartIcon />}
         >
-          Run Test
+          Run Testt
         </Button>
       </Tooltip>
     </Skeleton>
