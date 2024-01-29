@@ -30,6 +30,7 @@ import {
 import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
 import { FaExclamationTriangle as ExclamationTriangle } from "react-icons/fa";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function Playground() {
   interface Test {
@@ -323,7 +324,7 @@ export default function Playground() {
                     </CardBody>
                   )}
                   {data && !spinner && (
-                    <CardBody className="flex gap-5 items-center justify-center">
+                    <CardBody className="flex gap-5 items-center justify-center h-52">
                       {data.summary.toLowerCase().includes("1 ok") ? (
                         <p className="text-xl">Test passed</p>
                       ) : (
@@ -391,25 +392,37 @@ export default function Playground() {
 
         <ToastContainer />
       </div>
-      <Tooltip
+      {/* <Tooltip
         className="pointer"
         onClick={() => setFocusTab("options")}
         placement="right"
         content="Options missing..."
         color="warning"
         isOpen={!isFormValid()}
-      >
+      > */}
+      <div className="flex items-center gap-4 mt-2">
         <Button
           isDisabled={!isFormValid()}
           color="primary"
           size="lg"
-          className="mt-2"
           onClick={runTests}
           startContent={<StartIcon />}
         >
-          Run Testt
+          Run Test
         </Button>
-      </Tooltip>
+        {!isFormValid() && (
+          <div className="flex items-center showArrow">
+            <Button
+              onClick={() => setFocusTab("options")}
+              size="sm"
+              radius="full"
+              color="warning"
+            >
+              Options missing...
+            </Button>
+          </div>
+        )}
+      </div>
     </Skeleton>
   );
 }

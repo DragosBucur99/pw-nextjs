@@ -107,6 +107,17 @@ nav header {
   padding: 0 !important;
   }
 
-  div[role='tooltip'] {
-    cursor: pointer;
-  }
+.showArrow {
+  position: relative;
+}
+
+.showArrow::after {
+  content: '';
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  left: -12px;
+  background-color: #f5a524;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform: rotate(-90deg);
+}
