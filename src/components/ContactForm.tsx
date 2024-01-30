@@ -104,7 +104,7 @@ export default function ContactForm() {
           Send
         </Button>
       </div>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={3000} limit={1} />
     </form>
   );
 }

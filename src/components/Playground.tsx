@@ -16,7 +16,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  Tooltip,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -30,7 +29,6 @@ import {
 import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
 import { FaExclamationTriangle as ExclamationTriangle } from "react-icons/fa";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function Playground() {
   interface Test {
@@ -390,7 +388,7 @@ export default function Playground() {
           </div>
         )}
 
-        <ToastContainer />
+        <ToastContainer limit={1} />
       </div>
       {/* <Tooltip
         className="pointer"
