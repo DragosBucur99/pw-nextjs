@@ -16,6 +16,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -72,6 +74,14 @@ export default function Playground() {
   ).length;
 
   const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSelectChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -294,18 +304,38 @@ export default function Playground() {
               >
                 <Card className="h-full">
                   <CardBody className="h-52 overflow-y-auto">
-                    <ul>
+                    <ul className="flex flex-col gap-5">
                       {testCase.options?.map((option, index) => (
-                        <li key={index} className="flex flex-col gap-3">
-                          {option.name}
+                        <li key={index} className="flex flex-col gap-1">
                           {option.type === "searchbox" && (
-                            <Input
-                              type="text"
-                              // @ts-ignore
-                              value={formData[option.label]}
+                            <>
+                              <span className="text-sm">{option.name}</span>
+                              <Input
+                                size="sm"
+                                type="text"
+                                // @ts-ignore
+                                value={formData[option.label]}
+                                name={option.label}
+                                onChange={handleInputChange}
+                              />
+                            </>
+                          )}
+                          {option.type === "dropdown" && (
+                            <Select
+                              size="sm"
                               name={option.label}
-                              onChange={handleInputChange}
-                            />
+                              onChange={handleSelectChange}
+                              label={"Select " + option.name.toLowerCase()}
+                            >
+                              {
+                                // @ts-ignore
+                                option.dropdownValues.map((value) => (
+                                  <SelectItem key={value} value={value}>
+                                    {value}
+                                  </SelectItem>
+                                ))
+                              }
+                            </Select>
                           )}
                         </li>
                       ))}
