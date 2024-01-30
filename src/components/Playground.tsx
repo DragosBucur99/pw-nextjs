@@ -1,5 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useState, useEffect, useMemo } from "react";
 import {
   Button,
@@ -304,7 +304,6 @@ export default function Playground() {
                               // @ts-ignore
                               value={formData[option.label]}
                               name={option.label}
-                              // onChange={(e) => setInputValue(e.target.value)}
                               onChange={handleInputChange}
                             />
                           )}
@@ -387,17 +386,7 @@ export default function Playground() {
             </Tabs>
           </div>
         )}
-
-        <ToastContainer limit={1} />
       </div>
-      {/* <Tooltip
-        className="pointer"
-        onClick={() => setFocusTab("options")}
-        placement="right"
-        content="Options missing..."
-        color="warning"
-        isOpen={!isFormValid()}
-      > */}
       <div className="flex items-center gap-4 mt-2">
         <Button
           isDisabled={!isFormValid()}

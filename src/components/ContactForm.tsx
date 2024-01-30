@@ -4,7 +4,7 @@ import { Input, Textarea } from "@nextui-org/react";
 import { FaPaperPlane as PaperPlane } from "react-icons/fa";
 import { useMemo, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mknlazko");
@@ -106,7 +106,6 @@ export default function ContactForm() {
           Send
         </Button>
       </div>
-      <ToastContainer autoClose={3000} limit={1} />
     </form>
   );
 }

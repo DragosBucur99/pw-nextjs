@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import ToastProvider from "./toast.provider";
 
 export const metadata: Metadata = {
   title: "Dragos Portfolio",
@@ -25,10 +27,12 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.className} dark`}>
       <body className="bg-neutral-900">
         <Nav />
-        <Providers>
-          {children}
-          <Footer />
-        </Providers>
+        <ToastProvider>
+          <Providers>
+            {children}
+            <Footer />
+          </Providers>
+        </ToastProvider>
       </body>
     </html>
   );
