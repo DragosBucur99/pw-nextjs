@@ -26,7 +26,12 @@ export default function ContactForm() {
     try {
       await toast.promise(handleSubmit(e), {
         pending: "Sending message...",
-        success: "Message sent!",
+        success: {
+          render() {
+            return "Message sent!";
+          },
+          toastId: "success1",
+        },
         error: "Failed to send the message. Please try again later!",
       });
       setFormData({
@@ -40,10 +45,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form
-      onSubmit={(e) => handleFormSubmit(e)}
-      className="flex flex-col gap-10"
-    >
+    <form onSubmit={handleFormSubmit} className="flex flex-col gap-10">
       <div>
         <Input
           size="lg"
