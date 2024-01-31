@@ -4,7 +4,7 @@ export default function Testimonial() {
   return (
     <div className="flex flex-col items-center gap-20">
       <QuoteRight size={100} className="text-neutral-700" />
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 max-w-[50rem]">
         <p className="text-base text-center italic">
           I&apos;ve had the pleasure of working with Dragos for one and a half
           years and have had the opportunity to see him greatly evolve from both
