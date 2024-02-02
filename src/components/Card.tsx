@@ -17,14 +17,14 @@ export default function Card({
   hrefs,
 }: CardProps) {
   return (
-    <div className="h-[18rem] max-h-[18rem] min-w-[20rem] overflow-y-auto flex flex-col gap-5 p-5 rounded-md bg-neutral-800 shadow-md flex-1 card">
+    <div className="min-w-[20rem] flex flex-col gap-5 p-5 rounded-md shadow-md flex-1 glass">
       <div className="w-full flex items-center gap-3 rounded-full">
-        <h3>{title}</h3>
+        <h3 className="text-white font-bold">{title}</h3>
         {IconComponent && <IconComponent size={25} />}
       </div>
       <ScrollShadow>
-        <div className="pr-2">
-          <p className="text-base font-light">{text}</p>
+        <div className="pr-2 h-[10rem] max-h-[10rem] card">
+          <p className="text-base font-light text-neutral-300">{text}</p>
         </div>
       </ScrollShadow>
       {chips && chips.length > 0 && (

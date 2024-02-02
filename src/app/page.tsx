@@ -5,7 +5,11 @@ import Playground from "@/components/Playground";
 import Card from "@/components/Card";
 import { PiTreeStructureThin as TreeStructure } from "react-icons/pi";
 import { CiRoute } from "react-icons/ci";
-import { CiClock1 } from "react-icons/ci";
+import { SiGithubactions as GithubActionsIcon } from "react-icons/si";
+import {
+  FaGithub as GithubIcon,
+  FaJenkins as JenkinsIcon,
+} from "react-icons/fa";
 import ContactForm from "@/components/ContactForm";
 import { PiArrowBendDownRightThin as BendArrow } from "react-icons/pi";
 import { User, Divider, Chip, Link } from "@nextui-org/react";
@@ -70,9 +74,10 @@ export default function Home() {
             <div>
               <Divider orientation="vertical" className="hidden xl:block" />
             </div>
-            <p className="text-base opacity-90 leading-6">
-              SDET with a passion for quality. Explore my portfolio for expert
-              test automation and seamless user experiences.
+            <p className="text-base text-neutral-200 leading-6">
+              Explore my portfolio to witness a fusion of technical expertise,
+              innovative test strategies and a commitment to delivering
+              high-performance, reliable software solutions.
             </p>
           </div>
 
@@ -101,14 +106,19 @@ export default function Home() {
       <section id="playground-section" className="flex gap-10 flex-col">
         <div>
           <h1>Playground</h1>
-          <h2 className="text-base opacity-80 pt-5">
+          <h2 className="text-md text-neutral-300 pt-5">
             Testing does not have to be hard!
           </h2>
         </div>
         <Playground />
       </section>
       <section id="skills-section" className="flex flex-col gap-10">
-        <h1>Skills</h1>
+        <div>
+          <h1>Skills</h1>
+          <h2 className="text-md text-neutral-300 pt-5">
+            What do I bring to the table?
+          </h2>
+        </div>
         <div className="flex gap-10 flex-col flex-wrap lg:flex-row">
           <Card
             title="End-to-End"
@@ -159,18 +169,31 @@ export default function Home() {
             hrefs={["https://www.postman.com/", "https://playwright.com"]}
           />
           <Card
-            title="PERFORMANCE"
-            icon={CiClock1}
-            text="Performance testing evaluates the speed, responsiveness, and stability of your software under various conditions. It ensures your application delivers optimal user experiences, even during peak loads, by identifying and addressing performance bottlenecks."
+            title="CI/CD"
+            icon={GithubActionsIcon}
+            text="CI/CD streamlines software development by automating integration, testing, and deployment processes. This practice ensures rapid, reliable, and consistent delivery of high-quality code changes, fostering efficient collaboration among development teams."
             chips={[
-              <Chip key="K6" variant="faded" color="primary">
-                K6
+              <Chip
+                key="Github Actions"
+                startContent={<GithubIcon size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Github Actions
               </Chip>,
-              <Chip key="Loadtest" variant="faded" color="primary">
-                Loadtest
+              <Chip
+                key="Jenkins"
+                startContent={<JenkinsIcon size={18} />}
+                variant="faded"
+                color="primary"
+              >
+                Jenkins
               </Chip>,
             ]}
-            hrefs={["https://k6.io/", "https://www.npmjs.com/package/loadtest"]}
+            hrefs={[
+              "https://github.com/features/actions",
+              "https://www.jenkins.io/",
+            ]}
           />
         </div>
       </section>
