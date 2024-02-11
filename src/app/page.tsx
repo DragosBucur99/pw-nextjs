@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [sectionIdToScroll, setSectionIdToScroll] = useState("");
+  const [heroStaticImgVisibility, setHeroStaticImgVisibility] = useState(true);
 
   const scrollToSection = (sectionId: string) => {
     setSectionIdToScroll(sectionId);
@@ -99,7 +100,17 @@ export default function Home() {
             height={700}
             alt="Finding bugs in the code"
             src="/hero.gif"
+            style={{ display: heroStaticImgVisibility ? "none" : "unset" }}
+            onLoad={() => setHeroStaticImgVisibility(false)}
           />
+          {heroStaticImgVisibility && (
+            <Image
+              width={700}
+              height={700}
+              alt="Finding bugs in the code"
+              src="/hero-placeholder.svg"
+            />
+          )}
         </div>
         <ScrollDown />
       </section>
