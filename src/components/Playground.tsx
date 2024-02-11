@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Button,
   Listbox,
@@ -18,6 +18,10 @@ import {
   Chip,
   Select,
   SelectItem,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Link,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -30,11 +34,17 @@ import {
 } from "@nextui-org/react";
 import { VscDebugStart as StartIcon } from "react-icons/vsc";
 import { IoMdDownload as DownloadIcon } from "react-icons/io";
-import { FaExclamationTriangle as ExclamationTriangle } from "react-icons/fa";
+import {
+  FaExclamationTriangle as ExclamationTriangle,
+  FaArrowDown as ArrowDown,
+  FaInfoCircle as InfoIcon,
+} from "react-icons/fa";
 
 export default function Playground() {
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   interface Test {
     title: string;
+    prerequisites?: string;
     steps?: string[];
     expectedOutput?: string;
     options?: {
@@ -45,6 +55,7 @@ export default function Playground() {
   }
 
   interface TestCase {
+    prerequisites?: string;
     steps: string[];
     expectedOutput: string;
     options: {
@@ -127,8 +138,14 @@ export default function Playground() {
 
   useEffect(() => {
     const test = tests.find((test) => test.title === selectedTest);
-    if (test?.steps && test?.expectedOutput && test?.options) {
+    if (
+      test?.prerequisites &&
+      test?.steps &&
+      test?.expectedOutput &&
+      test?.options
+    ) {
       setTestCase({
+        prerequisites: test.prerequisites,
         steps: test.steps,
         expectedOutput: test.expectedOutput,
         options: test.options,
@@ -212,11 +229,15 @@ export default function Playground() {
   return (
     <Skeleton isLoaded={isLoaded}>
       <div className="flex flex-col gap-2 lg:flex-row">
-        <div className="border-small px-1 py-2 rounded-small border-default-200 dark:border-default-200 overflow-y-auto lg:flex-1">
-          <div className="px-2">
+        <div className="border-small px-1 py-2 rounded-small border-default-200 dark:border-default-200 lg:flex-1 h-72">
+          <div className="px-2 flex items-center gap-3" ref={triggerRef}>
             <Dropdown>
               <DropdownTrigger>
-                <Button variant="solid" className="capitalize">
+                <Button
+                  variant="solid"
+                  className="capitalize"
+                  endContent={<ArrowDown size={10} />}
+                >
                   {selectedValue}
                 </Button>
               </DropdownTrigger>
@@ -230,7 +251,21 @@ export default function Playground() {
                 // @ts-ignore
                 onSelectionChange={setSelectedKeys}
               >
-                <DropdownItem key="fitness buddy">Fitness Buddy</DropdownItem>
+                <DropdownItem
+                  key="fitness buddy"
+                  endContent={
+                    <Button
+                      color="primary"
+                      size="sm"
+                      target="_blank"
+                      href="https://reactfitnessapp-gilt.vercel.app/"
+                      as={Link}
+                      showAnchorIcon
+                    />
+                  }
+                >
+                  Fitness Buddy
+                </DropdownItem>
                 <DropdownItem key="catan" description="Coming soon...">
                   Catan
                 </DropdownItem>
@@ -239,10 +274,27 @@ export default function Playground() {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            <Popover
+              placement="top"
+              showArrow={true}
+              backdrop="blur"
+              triggerRef={triggerRef}
+            >
+              <PopoverTrigger>
+                <InfoIcon size={20} className="cursor-pointer" />
+              </PopoverTrigger>
+              <PopoverContent>
+                <div className="px-1 py-5">
+                  <div className="text-small font-bold">
+                    Select the app you wish to perform tests on.
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <Listbox
             id="testsList"
-            className="mt-5"
+            className="mt-5 h-52 overflow-y-auto pr-10"
             aria-label="Single selection example"
             variant="flat"
             disallowEmptySelection
@@ -270,18 +322,32 @@ export default function Playground() {
             >
               <Tab key="case" title="Test case">
                 <Card className="h-full">
-                  <CardBody className="flex flex-col gap-2 h-52 overflow-y-auto">
+                  <CardBody className="flex flex-col h-52 overflow-y-auto">
+                    {testCase.prerequisites !== "none" && (
+                      <div className="mb-5">
+                        <span className="text-[#0070f0] font-bold">
+                          Prerequisites:
+                        </span>
+                        <p className="text-sm lg:text-base">
+                          {testCase.prerequisites}
+                        </p>
+                      </div>
+                    )}
                     <span className="text-[#0070f0] font-bold">Steps:</span>
-                    <ul>
+                    <ul className="flex flex-col gap-[.2rem] mt-1">
                       {testCase.steps.map((step, index) => (
-                        <li key={index}>{`${index + 1}. ${step}`}</li>
+                        <li key={index} className="text-sm lg:text-base">{`${
+                          index + 1
+                        }. ${step}`}</li>
                       ))}
                     </ul>
-                    <div>
+                    <div className="mt-5">
                       <span className="text-[#0070f0] font-bold">
                         Expected output:
                       </span>
-                      <p>{testCase.expectedOutput}</p>
+                      <p className="text-sm lg:text-base">
+                        {testCase.expectedOutput}
+                      </p>
                     </div>
                   </CardBody>
                 </Card>
@@ -336,6 +402,17 @@ export default function Playground() {
                                 ))
                               }
                             </Select>
+                          )}
+                          {option.type === "number" && (
+                            <Input
+                              name={option.label}
+                              size="sm"
+                              type="number"
+                              label={option.name}
+                              placeholder="0.00"
+                              labelPlacement="outside"
+                              onChange={handleSelectChange}
+                            />
                           )}
                         </li>
                       ))}
