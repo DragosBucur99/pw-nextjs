@@ -76,6 +76,7 @@ export default function ContactForm() {
       </div>
       <div>
         <Textarea
+          disableAutosize={true}
           size="lg"
           id="message"
           name="message"
