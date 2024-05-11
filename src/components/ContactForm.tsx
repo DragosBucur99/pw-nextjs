@@ -48,6 +48,7 @@ export default function ContactForm() {
     <form onSubmit={handleFormSubmit} className="flex flex-col gap-10">
       <div>
         <Input
+          isRequired={true}
           size="lg"
           type="name"
           id="name"
@@ -61,6 +62,7 @@ export default function ContactForm() {
       </div>
       <div>
         <Input
+          isRequired={true}
           size="lg"
           type="email"
           id="email"
@@ -76,6 +78,7 @@ export default function ContactForm() {
       </div>
       <div>
         <Textarea
+          isRequired={true}
           disableAutosize={true}
           size="lg"
           id="message"

@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   Link,
+  ScrollShadow,
 } from "@nextui-org/react";
 import {
   Modal,
@@ -292,25 +293,26 @@ export default function Playground() {
               </PopoverContent>
             </Popover>
           </div>
-          <Listbox
-            id="testsList"
-            className="mt-5 h-52 overflow-y-auto pr-10"
-            aria-label="Single selection example"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-            selectedKeys={selectedKeyTestValue}
-            onSelectionChange={(keys) => {
-              // @ts-ignore
-              setSelectedTest(tests[Array.from(keys).join("")].title);
-              // @ts-ignore
-              return setSelectedKeyTest(keys);
-            }}
-          >
-            {tests.map((test, index) => (
-              <ListboxItem key={index}>{test.title}</ListboxItem>
-            ))}
-          </Listbox>
+          <ScrollShadow className="mt-5 h-52 overflow-y-auto pr-10">
+            <Listbox
+              id="testsList"
+              aria-label="Single selection example"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeyTestValue}
+              onSelectionChange={(keys) => {
+                // @ts-ignore
+                setSelectedTest(tests[Array.from(keys).join("")].title);
+                // @ts-ignore
+                return setSelectedKeyTest(keys);
+              }}
+            >
+              {tests.map((test, index) => (
+                <ListboxItem key={index}>{test.title}</ListboxItem>
+              ))}
+            </Listbox>
+          </ScrollShadow>
         </div>
         {testCase && (
           <div className="flex flex-col gap-2 border-small border-default-200 px-3 py-2 rounded-small text-base lg:flex-1 h-72">
