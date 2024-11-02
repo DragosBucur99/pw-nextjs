@@ -76,9 +76,8 @@ export default function Home() {
               <Divider orientation="vertical" className="hidden xl:block" />
             </div>
             <p className="text-base text-neutral-200 leading-6">
-              Explore my portfolio to witness a fusion of technical expertise,
-              innovative test strategies and a commitment to delivering
-              high-performance, reliable software solutions.
+              From test frameworks to bug-catching, I connect development and
+              quality to keep software running smoothly.
             </p>
           </div>
 
