@@ -133,3 +133,18 @@ nav header {
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
+
+.swiper-pagination-bullet {
+  transform: scale(1.5);
+  background-color: white !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #1d4ed8 !important;
+}
+
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
