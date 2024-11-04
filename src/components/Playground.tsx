@@ -97,6 +97,10 @@ export default function Playground() {
     (value) => value === ""
   ).length;
 
+  const resetFormData = Object.fromEntries(
+    Object.keys(formData).map((key) => [key, ""])
+  );
+
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
@@ -217,6 +221,7 @@ export default function Playground() {
     } finally {
       setSpinner(false);
       setData(body);
+      setFormData(resetFormData);
     }
   };
 
@@ -316,8 +321,27 @@ export default function Playground() {
               </PopoverTrigger>
               <PopoverContent>
                 <div className="px-1 py-5">
-                  <div className="text-small font-bold">
-                    Select the app you wish to perform tests on.
+                  <div className="text-small flex flex-col gap-5">
+                    <h3 className="font-bold">Welcome to the Playground!</h3>
+                    <p>
+                      Testing is a breeze! Just choose the app you want to test,
+                      and follow these steps:
+                    </p>
+                    <ol>
+                      <li>1. Select a test case from the list</li>
+                      <li>
+                        2. Review the test details to understand the objectives
+                      </li>
+                      <li>3. Fill in any required options for your test</li>
+                      <li>
+                        4. Click &quot;Run Test&quot; and see the results in
+                        real time
+                      </li>
+                      <li>
+                        5. Check out the report under the &quot;Report&quot; tab
+                      </li>
+                    </ol>
+                    <p>Pick an app and let the testing begin!</p>
                   </div>
                 </div>
               </PopoverContent>
@@ -339,7 +363,9 @@ export default function Playground() {
               }}
             >
               {tests.map((test, index) => (
-                <ListboxItem key={index}>{test.title}</ListboxItem>
+                <ListboxItem key={index} isDisabled={spinner}>
+                  {test.title}
+                </ListboxItem>
               ))}
             </Listbox>
           </ScrollShadow>
@@ -542,6 +568,8 @@ export default function Playground() {
           size="lg"
           onClick={runTests}
           startContent={<StartIcon />}
+          disabled={spinner}
+          isLoading={spinner}
         >
           Run Test
         </Button>
