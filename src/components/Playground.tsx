@@ -23,7 +23,9 @@ import {
   PopoverContent,
   Link,
   ScrollShadow,
+  DateInput,
 } from "@nextui-org/react";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import {
   Modal,
   ModalContent,
@@ -81,6 +83,16 @@ export default function Playground() {
   const [selectedKeys, setSelectedKeys] = useState(new Set(["fitness buddy"]));
   const [formData, setFormData] = useState({});
 
+  const checkDueDate = (date: string): boolean => {
+    const [day, month, year] = date.split("/").map(Number);
+    const inputDate = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const upperLimit = new Date(2099, 11, 31);
+    upperLimit.setHours(0, 0, 0, 0);
+    return inputDate >= today && inputDate <= upperLimit;
+  };
+
   const requiredInputs = Object.values(formData).filter(
     (value) => value === ""
   ).length;
@@ -99,6 +111,24 @@ export default function Playground() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleDateChange = (e: any) => {
+    if (e) {
+      const { day, month, year } = e;
+      const dueDate = `${day}/${month}/${year}`;
+      if (checkDueDate(dueDate)) {
+        setFormData({
+          ...formData,
+          ["TASK_DUE_DATE"]: dueDate,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          ["TASK_DUE_DATE"]: "",
+        });
+      }
+    }
   };
 
   const isFormValid = () => {
@@ -414,6 +444,15 @@ export default function Playground() {
                               placeholder="0.00"
                               labelPlacement="outside"
                               onChange={handleSelectChange}
+                            />
+                          )}
+                          {option.type === "date" && (
+                            <DateInput
+                              minValue={today(getLocalTimeZone())}
+                              size="sm"
+                              label={option.name}
+                              labelPlacement="outside"
+                              onChange={handleDateChange}
                             />
                           )}
                         </li>
