@@ -29,15 +29,15 @@ export default function RootLayout({
       <head>
         <Script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${"${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}"}`}
+          src="https://www.googletagmanager.com/gtag/js?id=G-8W9ZNJMB90"
         />
 
         <Script id="google-analytics">
           {`
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', ${"${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}"});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8W9ZNJMB90');
   `}
         </Script>
       </head>
