@@ -6,13 +6,23 @@ import { useMemo, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
+type FormData = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mknlazko");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     message: "",
   });
+
+  const getFormCompletion = (formData: FormData): boolean => {
+    return Object.values(formData).every((field) => field.trim() !== "");
+  };
 
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
@@ -21,6 +31,11 @@ export default function ContactForm() {
 
     return validateEmail(formData.email) ? false : true;
   }, [formData]);
+
+  const isFormCompleted = useMemo(
+    () => getFormCompletion(formData),
+    [formData]
+  );
 
   const handleFormSubmit = async (e: any) => {
     try {
@@ -100,9 +115,9 @@ export default function ContactForm() {
       <div className="mt-5">
         <Button
           isLoading={state.submitting}
+          isDisabled={!isFormCompleted || isInvalid || state.submitting}
           type="submit"
           color="primary"
-          disabled={state.submitting}
           endContent={<PaperPlane size={20} />}
           size="lg"
           className="text-xl font-bold"
